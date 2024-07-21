@@ -1,0 +1,27 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/rajeev-gupta/ros2/ros2_ws/install/sdformat_urdf/include/**",
+        "/home/rajeev-gupta/ros2/ros2_ws/install/ros_gz_sim/include/**",
+        "/home/rajeev-gupta/ros2/ros2_ws/install/ros_gz_bridge/include/**",
+        "/home/rajeev-gupta/ros2/ros2_ws/install/ros_gz_interfaces/include/**",
+        "/home/rajeev-gupta/ros2/ros2_ws/install/micro_ros_agent/include/**",
+        "/home/rajeev-gupta/ros2/ros2_ws/install/ardupilot_msgs/include/**",
+        "/opt/ros/humble/include/**",
+        "/home/rajeev-gupta/ros2/btp_ws/src/DRONE_ACHARYA/drone_acharya_bringup/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}
