@@ -1,22 +1,6 @@
-<?xml version="1.0" ?>
-<sdf version="1.6">
-  <world name="default">
-    <light type="directional" name="sun">
-      <cast_shadows>true</cast_shadows>
-      <pose>0 0 10 0 0 0</pose>
-      <diffuse>1 1 1 1</diffuse>
-      <specular>0.5 0.5 0.5 1</specular>
-      <attenuation>
-        <range>1000</range>
-        <constant>0.9</constant>
-        <linear>0.01</linear>
-        <quadratic>0.001</quadratic>
-      </attenuation>
-      <direction>-0.5 0.1 -0.9</direction>
-    </light>
-
-  <model name='iris_with_standoffs'>
-    <pose>0 0 1 0 0 0</pose>
+<?xml version='1.0'?>
+<sdf version="1.9">
+  <model name="drone_v2">
     <link name='base_link'>
       <velocity_decay>
         <linear>0.0</linear>
@@ -428,7 +412,7 @@
         </inertia>
       </inertial>
       <collision name='rotor_3_collision'>
-        <!-- <pose>0 0 0 0 0 0</pose> -->
+        <pose>0 0 0 0 0 0</pose>
         <geometry>
           <cylinder>
             <length>0.005</length>
@@ -445,7 +429,7 @@
         </surface>
       </collision>
       <visual name='rotor_3_visual'>
-        <!-- <pose>0 0 0 0 0 0</pose> -->
+        <pose>0 0 0 0 0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -488,70 +472,203 @@
       </physics>
     </joint>
 
-    <joint name="world_fixed" type="fixed">
-      <pose>0 0 1 0 0 0</pose>
-        <parent>world</parent>
-        <child>base_link</child>
-     </joint>
 
-    <plugin filename="gz-sim-joint-controller-system"
-      name="gz::sim::systems::JointController">
-      <joint_name>rotor_0_joint</joint_name>
-      <initial_velocity>0.0</initial_velocity>
-      <topic>/custom_drone/rotor_0_joint/cmd_roll</topic>
+    <!-- plugins -->
+    <plugin filename="gz-sim-lift-drag-system"
+        name="gz::sim::systems::LiftDrag">
+      <a0>0.3</a0>
+      <alpha_stall>1.4</alpha_stall>
+      <cla>4.2500</cla>
+      <cda>0.10</cda>
+      <cma>0.0</cma>
+      <cla_stall>-0.025</cla_stall>
+      <cda_stall>0.0</cda_stall>
+      <cma_stall>0.0</cma_stall>
+      <area>0.002</area>
+      <air_density>1.2041</air_density>
+      <cp>0.084 0 0</cp>
+      <forward>0 1 0</forward>
+      <upward>0 0 1</upward>
+      <link_name>rotor_0</link_name>
     </plugin>
-    <plugin filename="gz-sim-joint-controller-system"
-      name="gz::sim::systems::JointController">
-      <joint_name>rotor_1_joint</joint_name>
-      <initial_velocity>0.0</initial_velocity>
-      <topic>/custom_drone/rotor_1_joint/cmd_roll</topic>
+    <plugin filename="gz-sim-lift-drag-system"
+        name="gz::sim::systems::LiftDrag">
+      <a0>0.3</a0>
+      <alpha_stall>1.4</alpha_stall>
+      <cla>4.2500</cla>
+      <cda>0.10</cda>
+      <cma>0.0</cma>
+      <cla_stall>-0.025</cla_stall>
+      <cda_stall>0.0</cda_stall>
+      <cma_stall>0.0</cma_stall>
+      <area>0.002</area>
+      <air_density>1.2041</air_density>
+      <cp>-0.084 0 0</cp>
+      <forward>0 -1 0</forward>
+      <upward>0 0 1</upward>
+      <link_name>rotor_0</link_name>
     </plugin>
-    <plugin filename="gz-sim-joint-controller-system"
-      name="gz::sim::systems::JointController">
-      <joint_name>rotor_2_joint</joint_name>
-      <initial_velocity>0.0</initial_velocity>
-      <topic>/custom_drone/rotor_2_joint/cmd_roll</topic>
+
+    <plugin filename="gz-sim-lift-drag-system"
+        name="gz::sim::systems::LiftDrag">
+      <a0>0.3</a0>
+      <alpha_stall>1.4</alpha_stall>
+      <cla>4.2500</cla>
+      <cda>0.10</cda>
+      <cma>0.0</cma>
+      <cla_stall>-0.025</cla_stall>
+      <cda_stall>0.0</cda_stall>
+      <cma_stall>0.0</cma_stall>
+      <area>0.002</area>
+      <air_density>1.2041</air_density>
+      <cp>0.084 0 0</cp>
+      <forward>0 1 0</forward>
+      <upward>0 0 1</upward>
+      <link_name>rotor_1</link_name>
     </plugin>
-    <plugin filename="gz-sim-joint-controller-system"
-      name="gz::sim::systems::JointController">
-      <joint_name>rotor_3_joint</joint_name>
-      <initial_velocity>0.1</initial_velocity>
-      <topic>/custom_drone/rotor_3_joint/cmd_roll</topic>
+    <plugin filename="gz-sim-lift-drag-system"
+        name="gz::sim::systems::LiftDrag">
+      <a0>0.3</a0>
+      <alpha_stall>1.4</alpha_stall>
+      <cla>4.2500</cla>
+      <cda>0.10</cda>
+      <cma>0.0</cma>
+      <cla_stall>-0.025</cla_stall>
+      <cda_stall>0.0</cda_stall>
+      <cma_stall>0.0</cma_stall>
+      <area>0.002</area>
+      <air_density>1.2041</air_density>
+      <cp>-0.084 0 0</cp>
+      <forward>0 -1 0</forward>
+      <upward>0 0 1</upward>
+      <link_name>rotor_1</link_name>
     </plugin>
-    <!-- <plugin filename="ignition-gazebo-joint-controller-system"
-      name="ignition::gazebo::systems::JointController">
-      <joint_name>rotor_0_joint</joint_name>
-      <initial_velocity>0.0</initial_velocity>
-      <topic>/custom_drone/rotor_0_joint/cmd_roll</topic>
+
+    <plugin filename="gz-sim-lift-drag-system"
+        name="gz::sim::systems::LiftDrag">
+      <a0>0.3</a0>
+      <alpha_stall>1.4</alpha_stall>
+      <cla>4.2500</cla>
+      <cda>0.10</cda>
+      <cma>0.0</cma>
+      <cla_stall>-0.025</cla_stall>
+      <cda_stall>0.0</cda_stall>
+      <cma_stall>0.0</cma_stall>
+      <area>0.002</area>
+      <air_density>1.2041</air_density>
+      <cp>0.084 0 0</cp>
+      <forward>0 -1 0</forward>
+      <upward>0 0 1</upward>
+      <link_name>rotor_2</link_name>
     </plugin>
-    <plugin filename="ignition-gazebo-joint-controller-system"
-      name="ignition::gazebo::systems::JointController">
-      <joint_name>rotor_1_joint</joint_name>
-      <initial_velocity>0.0</initial_velocity>
-      <topic>/custom_drone/rotor_1_joint/cmd_roll</topic>
+    <plugin filename="gz-sim-lift-drag-system"
+        name="gz::sim::systems::LiftDrag">
+      <a0>0.3</a0>
+      <alpha_stall>1.4</alpha_stall>
+      <cla>4.2500</cla>
+      <cda>0.10</cda>
+      <cma>0.0</cma>
+      <cla_stall>-0.025</cla_stall>
+      <cda_stall>0.0</cda_stall>
+      <cma_stall>0.0</cma_stall>
+      <area>0.002</area>
+      <air_density>1.2041</air_density>
+      <cp>-0.084 0 0</cp>
+      <forward>0 1 0</forward>
+      <upward>0 0 1</upward>
+      <link_name>rotor_2</link_name>
     </plugin>
-    <plugin filename="ignition-gazebo-joint-controller-system"
-      name="ignition::gazebo::systems::JointController">
-      <joint_name>rotor_2_joint</joint_name>
-      <initial_velocity>0.0</initial_velocity>
-      <topic>/custom_drone/rotor_2_joint/cmd_roll</topic>
+
+    <plugin filename="gz-sim-lift-drag-system"
+        name="gz::sim::systems::LiftDrag">
+      <a0>0.3</a0>
+      <alpha_stall>1.4</alpha_stall>
+      <cla>4.2500</cla>
+      <cda>0.10</cda>
+      <cma>0.0</cma>
+      <cla_stall>-0.025</cla_stall>
+      <cda_stall>0.0</cda_stall>
+      <cma_stall>0.0</cma_stall>
+      <area>0.002</area>
+      <air_density>1.2041</air_density>
+      <cp>0.084 0 0</cp>
+      <forward>0 -1 0</forward>
+      <upward>0 0 1</upward>
+      <link_name>rotor_3</link_name>
     </plugin>
-    <plugin filename="ignition-gazebo-joint-controller-system"
-      name="ignition::gazebo::systems::JointController">
-      <joint_name>rotor_3_joint</joint_name>
-      <initial_velocity>0.1</initial_velocity>
-      <topic>/custom_drone/rotor_3_joint/cmd_roll</topic>
-    </plugin> -->
+    <plugin filename="gz-sim-lift-drag-system"
+        name="gz::sim::systems::LiftDrag">
+      <a0>0.3</a0>
+      <alpha_stall>1.4</alpha_stall>
+      <cla>4.2500</cla>
+      <cda>0.10</cda>
+      <cma>0.0</cma>
+      <cla_stall>-0.025</cla_stall>
+      <cda_stall>0.0</cda_stall>
+      <cma_stall>0.0</cma_stall>
+      <area>0.002</area>
+      <air_density>1.2041</air_density>
+      <cp>-0.084 0 0</cp>
+      <forward>0 1 0</forward>
+      <upward>0 0 1</upward>
+      <link_name>rotor_3</link_name>
+    </plugin>
     
-    <plugin
-    filename="gz-sim-joint-state-publisher-system"
-    name="gz::sim::systems::JointStatePublisher">
-    <joint_name>rotor_3_joint</joint_name>
+    <plugin filename="gz-sim-joint-controller-system"
+      name="gz::sim::systems::JointController">
+      <joint_name>rotor_0_joint</joint_name>
+      <initial_velocity>0.0</initial_velocity>
+      <topic>/drone_v2/rotor_0_joint/cmd_roll</topic>
+    </plugin>
+    <plugin filename="gz-sim-joint-controller-system"
+      name="gz::sim::systems::JointController">
+      <joint_name>rotor_1_joint</joint_name>
+      <initial_velocity>0.0</initial_velocity>
+      <topic>/drone_v2/rotor_1_joint/cmd_roll</topic>
+    </plugin>
+    <plugin filename="gz-sim-joint-controller-system"
+      name="gz::sim::systems::JointController">
+      <joint_name>rotor_2_joint</joint_name>
+      <initial_velocity>0.0</initial_velocity>
+      <topic>/drone_v2/rotor_2_joint/cmd_roll</topic>
+    </plugin>
+    <plugin filename="gz-sim-joint-controller-system"
+      name="gz::sim::systems::JointController">
+      <joint_name>rotor_3_joint</joint_name>
+      <initial_velocity>0.0</initial_velocity>
+      <topic>/drone_v2/rotor_3_joint/cmd_roll</topic>
     </plugin>
 
+    <plugin
+      filename="gz-sim-joint-state-publisher-system"
+      name="gz::sim::systems::JointStatePublisher">
+    </plugin>
+
+    <plugin
+      filename="gz-sim-pose-publisher-system"
+      name="gz::sim::systems::PosePublisher">
+      <publish_link_pose>true</publish_link_pose>
+      <use_pose_vector_msg>true</use_pose_vector_msg>
+      <static_publisher>true</static_publisher>
+      <static_update_frequency>1</static_update_frequency>
+    </plugin>
+
+    <plugin
+      filename="gz-sim-odometry-publisher-system"
+      name="gz::sim::systems::OdometryPublisher">
+      <odom_frame>odom</odom_frame>
+      <!-- <robot_base_frame>base_link</robot_base_frame> -->
+      <!-- use Tf prefix as drone_v2 if below one is used -->
+      <robot_base_frame>drone_v2</robot_base_frame>
+    </plugin>
+    <plugin
+      filename="gz-sim-odometry-publisher-system"
+      name="gz::sim::systems::OdometryPublisher">
+      <odom_frame>odom</odom_frame>
+      <robot_base_frame>base_link</robot_base_frame>
+      <!-- use Tf prefix as drone_v2 if below one is used -->
+      <!-- <robot_base_frame>drone_v2</robot_base_frame> -->
+    </plugin>
 
   </model>
-
-
-  </world>
 </sdf>

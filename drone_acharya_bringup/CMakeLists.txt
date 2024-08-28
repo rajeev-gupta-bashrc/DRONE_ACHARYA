@@ -5,37 +5,33 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# find dependencies
 find_package(ament_cmake REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
+find_package(rclpy REQUIRED)
+find_package(std_msgs REQUIRED)
 
-# Install project launch files.
 install(
   DIRECTORY
-    launch/
+  launch/
   DESTINATION share/${PROJECT_NAME}/launch
-)
-
-# Install project rviz files.
+  )
 install(
   DIRECTORY
     rviz/
   DESTINATION share/${PROJECT_NAME}/rviz
 )
-
 install(
   DIRECTORY worlds/
   DESTINATION share/${PROJECT_NAME}/worlds
 )
-
 install(
   DIRECTORY models/
   DESTINATION share/${PROJECT_NAME}/models
 )
-
-
+install(
+  DIRECTORY
+    config/
+  DESTINATION share/${PROJECT_NAME}/config
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -50,8 +46,12 @@ if(BUILD_TESTING)
 endif()
 
 install(PROGRAMS
-  scripts/drone_basic.py
+  scripts/drone_teleop.py
+  scripts/test_flight_command_pub.py
+  scripts/flight_command_pub.py
   DESTINATION lib/${PROJECT_NAME}
 )
+
+# ament_python_install_package(${PROJECT_NAME})
 
 ament_package()

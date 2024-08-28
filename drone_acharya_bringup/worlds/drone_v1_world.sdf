@@ -67,16 +67,37 @@
       <surface_model>EARTH_WGS84</surface_model>
     </spherical_coordinates>
 
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
     
-    <include>
-      <uri>model://runway</uri>
-        <pose degrees="true">-29 545 0 0 0 363</pose>
-    </include>
-
     <include>
       <uri>model://drone_v1</uri>
       <name>drone_v1</name>
-      <pose degrees="true">0 0 0.2 0 0 90</pose>
+      <pose degrees="true">0 0 0.2 0 0 0</pose>
     </include>
 
 
