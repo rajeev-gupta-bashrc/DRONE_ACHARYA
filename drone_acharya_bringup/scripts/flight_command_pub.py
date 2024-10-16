@@ -32,13 +32,27 @@ class DroneController(Node):
         # control algo vars
         self.ctrl_curr_timestamp = np.zeros(2, dtype=np.int64)                 #secs, nsecs
         self.ctrl_last_timestamp = np.full(2, -1, dtype=np.int64)                 #secs, nsecs
-        self.last_posn = np.zeros(3, dtype=np.float32)
-        self.last_rpy  = np.zeros(3, dtype=np.float32)
+        # self.last_posn = np.zeros(3, dtype=np.float32)
+        # self.last_rpy  = np.zeros(3, dtype=np.float32)
         self.control_dict = {
+            # 'X': {
+            #     'PID': np.array([800.0, 100, 10], dtype=np.float32),
+            #     'MAX': 500.0,
+            #     'MIN': 420.0,             # (+)hover value - no load = 445
+            #     'ERROR': 0.0,
+            #     'INTEGRAL': 0.0,
+            # },
+            # 'Y': {
+            #     'PID': np.array([800.0, 100, 10], dtype=np.float32),
+            #     'MAX': 500.0,
+            #     'MIN': 420.0,             # (+)hover value - no load = 445
+            #     'ERROR': 0.0,
+            #     'INTEGRAL': 0.0,
+            # },
             'Z': {
                 'PID': np.array([800.0, 100, 10], dtype=np.float32),
                 'MAX': 500.0,
-                'MIN': 420.0,             # (+)hover value - no load = 445
+                'MIN': 420.0,             # (+)hover value - no load = 445 or 444.85 (precise)
                 'ERROR': 0.0,
                 'INTEGRAL': 0.0,
             },
@@ -66,6 +80,7 @@ class DroneController(Node):
         }
         
         self.desired_posn = np.array([0, 0, 0], dtype=np.float32)
+        self.desired_rpy = np.array([0, 0, 0], dtype=np.float32)
         self.logger = self.get_logger()
         self.logger.info('Created Drone Controller Class')
         
@@ -132,6 +147,11 @@ class DroneController(Node):
         self.desired_posn[2] = height
         self.logger.info('Desrired Posn set to: ' + ', '.join(map(str, self.desired_posn)))
         
+    def xy_to_rp(self, del_x, dl_y):
+        self.max_roll = 0.25 #14.323 944 88 degrees
+        self.max_pitch = 0.25 #14.323 944 88 degrees
+        del_r = del_x/abs(del_x) * abs(del_x) * self.max_roll / 5
+        del_p = del_x/abs(del_y) * abs(del_y) * self.max_roll / 5
     def update_controller(self):
         # calc values
         self.logger.info('update called')
@@ -141,8 +161,10 @@ class DroneController(Node):
         posn_error = self.desired_posn - self.posn
         print('posn_error', posn_error)
         net_throttle = self.iter_pid('Z', posn_error[2], _t, verbose=True)
-        rpy_error = self.rpy - self.last_rpy
+        self.desired_rpy[0] = posn_error[0]
+        rpy_error = self.desired_rpy - self.rpy
         roll_adjust = self.iter_pid('ROLL', rpy_error[0], _t)
+        pitch_adjust = self.iter_pid('PITCH', rpy_error[1], _t)
         yaw_adjust = self.iter_pid('YAW', rpy_error[2], _t)
         # self.command_values = self.rotor_values_from_throttle(net_throttle, roll_adjust=roll_adjust, yaw_adjust=yaw_adjust)
         self.command_values = self.rotor_values_from_throttle(net_throttle)

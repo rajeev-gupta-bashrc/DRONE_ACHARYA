@@ -97,9 +97,28 @@
     <include>
       <uri>model://drone_v2</uri>
       <name>drone_v2</name>
-      <pose degrees="true">0 0 0.2 0 0 90</pose>
+      <pose degrees="true">0 0 1 0 0 90</pose>
     </include>
 
+    <joint name='world_to_drone' type='revolute'>
+      <child>drone_v2</child>
+      <parent>world</parent>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <!-- <dynamics>
+          <damping>0.004</damping>
+        </dynamics> -->
+      </axis>
+      <physics>
+        <ode>
+          <implicit_spring_damper>1</implicit_spring_damper>
+        </ode>
+      </physics>
+    </joint>
 
   </world>
   

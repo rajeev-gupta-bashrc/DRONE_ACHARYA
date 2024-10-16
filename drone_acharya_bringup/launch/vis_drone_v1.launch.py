@@ -4,7 +4,7 @@ import os
 from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, ExecuteProcess
 from launch.actions import IncludeLaunchDescription
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -20,20 +20,15 @@ def generate_launch_description():
     pkg_project_bringup = get_package_share_directory("drone_acharya_bringup")
     pkg_ros_gz_sim = get_package_share_directory("ros_gz_sim")
 
-    # sdf_file  =  os.path.join(pkg_project_bringup, 'models', 'iris_with_standoffs', 'model.sdf')
     sdf_file  =  os.path.join(pkg_project_bringup, 'models', 'drone_v1', 'model.sdf')
     with open(sdf_file, 'r') as infp:
         robot_desc = infp.read()
         
-    # Gazebo.
-    gz_sim = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(pkg_ros_gz_sim, 'launch', 'gz_sim.launch.py')),
-        launch_arguments={'gz_args': PathJoinSubstitution([
-            pkg_project_bringup,
-            'worlds',
-            'drone_v1_world.sdf'
-        ])}.items(),
+    # Gazebo
+    world_file = PathJoinSubstitution([pkg_project_bringup, 'worlds', 'drone_v1_world.sdf'])
+    gz_sim = ExecuteProcess(
+        cmd=['gz', 'sim', '-r', world_file],
+        output='screen'
     )
     
     robot_state_publisher = Node(
@@ -46,7 +41,8 @@ def generate_launch_description():
             {'robot_description': robot_desc},
         ]
     )
-    # RViz.
+
+    # RViz
     rviz = Node(
         package="rviz2",
         executable="rviz2",
@@ -63,7 +59,14 @@ def generate_launch_description():
         }],
         output='screen'
     )
-
+    
+    bridge = Node(
+        name='parameter_bridge_clock',
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        arguments=['/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'],
+        output='screen'
+    )
 
     return LaunchDescription(
         [
@@ -73,6 +76,7 @@ def generate_launch_description():
             gz_sim,
             robot_state_publisher,   
             ros2_gz_bridge,
-            rviz,
+            bridge,
+            # rviz,
         ]
     )
