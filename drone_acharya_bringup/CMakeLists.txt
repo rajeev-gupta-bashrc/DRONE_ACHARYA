@@ -46,11 +46,17 @@ if(BUILD_TESTING)
 endif()
 
 install(PROGRAMS
-  scripts/drone_teleop.py
-  scripts/test_flight_command_pub.py
-  scripts/flight_command_pub.py
-  scripts/mpc_controller.py
-  scripts/test.py
+  scripts/drone_acharya_bringup/drone_teleop.py
+  scripts/drone_acharya_bringup/test_flight_command_pub.py
+  scripts/drone_acharya_bringup/flight_command_pub.py
+  scripts/drone_acharya_bringup/mpc_controller.py
+  scripts/drone_acharya_bringup/test.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(
+  DIRECTORY
+  scripts/drone_acharya_bringup/modules
   DESTINATION lib/${PROJECT_NAME}
 )
 
