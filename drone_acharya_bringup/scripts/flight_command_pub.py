@@ -221,10 +221,12 @@ def main(args=None):
     drone_node.start_imu_subs()
     drone_node.move_to_height(parsed_args.takeoff)
     drone_node.start_controller()
-    
-    rclpy.spin(drone_node)
-    drone_node.destroy_node()
-    rclpy.shutdown()
+    try:
+        rclpy.spin(drone_node)
+    except KeyboardInterrupt:
+        drone_node.logger.info('Keyboard Interrupt')
+    finally:
+        drone_node.destroy_node()
 
 if __name__ == '__main__':
     main()

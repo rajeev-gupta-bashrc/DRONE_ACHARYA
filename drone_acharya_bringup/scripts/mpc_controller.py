@@ -70,7 +70,7 @@ class DroneController(Node):
         self.simulation_clock = Clock(clock_type=ClockType.ROS_TIME)
         self.controller_update_rate = RosRate(10, self.simulation_clock)
         
-        self.log_file_name = '/ros2_log.txt'
+        self.log_file_name = 'logs/ros2_log.txt'
         if os.path.exists(pkg_path + self.log_file_name):
             self.log_file_name += '_1'
             while os.path.exists(pkg_path + self.log_file_name):
@@ -366,20 +366,14 @@ class DroneController(Node):
         self.desired_posn[2] = height
         self.logger.info('Desrired Posn set to: ' + ', '.join(map(str, self.desired_posn)))
         while(True):
-            self.go_to_goal(self.desired_posn[0], self.desired_vel[0], self.desired_acc[0],
-                            self.desired_posn[1], self.desired_vel[1], self.desired_acc[1],
-                            self.desired_posn[2], self.desired_vel[2], self.desired_acc[2], self.desired_psi)
-            self.controller_update_rate.sleep()
-            
-    def create_trajectory(self, final_vector: list, del_linear=0.01, del_ang=0.01):
-        """
-        final_vector: [X, X., X.., Y, Y., Y.., Z, Z., Z.., Yaw] ; len=10
-        del_linear: 1cm
-        del_angular: 0.01 radians
-        Returns a numpy array of mid states
-        """
-        
-        print(self.state_trajectory, self.state_trajectory.shape)
+            try:
+                self.go_to_goal(self.desired_posn[0], self.desired_vel[0], self.desired_acc[0],
+                                self.desired_posn[1], self.desired_vel[1], self.desired_acc[1],
+                                self.desired_posn[2], self.desired_vel[2], self.desired_acc[2], self.desired_psi)
+                self.controller_update_rate.sleep()
+            except KeyboardInterrupt as E:
+                self.logger.info('Error in move_to_height: %s' % E)
+                break
         
         
     def follow_trajectory(self):
@@ -402,18 +396,17 @@ def main(args=None):
     rclpy.init(args=args)
     
     drone_node = DroneController()
-    # drone_node.controller_update_rate = drone_node.create_rate(10)
     drone_node.start_odometry()
     drone_node.init_mpc()
     
-    # drone_node.move_to_height(parsed_args.takeoff)
-    
-    drone_node.create_trajectory()
-    drone_node.follow_trajectory()
-    
-    # rclpy.spin(drone_node)
-    drone_node.destroy_node()
-    rclpy.shutdown()
+    drone_node.move_to_height(parsed_args.takeoff)
+        
+    try:
+        rclpy.spin(drone_node)
+    except KeyboardInterrupt:
+        drone_node.logger.info('Keyboard Interrupt')
+    finally:
+        drone_node.destroy_node()
 
 if __name__ == '__main__':
     main()
