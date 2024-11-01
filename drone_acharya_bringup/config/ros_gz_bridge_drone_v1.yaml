@@ -45,3 +45,22 @@
   ros_type_name: "sensor_msgs/msg/Imu"
   gz_type_name: "gz.msgs.IMU"
   direction: GZ_TO_ROS
+
+
+
+### NOTE:
+# To create a clock bridge via terminal.
+#ros2 run ros_gz_bridge parameter_bridge /clock@rosgraph_msgs/msg/Clock@gz.msgs.Clock
+
+### NOTE:
+# clock bridge through the yaml file wasn't working, but works from the launch file
+# - ros_topic_name: "/clock"
+#   gz_topic_name: "/clock"
+#   ros_type_name: "rosgraph_msgs/msg/Clock	"
+#   gz_type_name: "gz.msgs.Clock"
+#   direction: GZ_TO_ROS
+# - ros_topic_name: "/clock"
+#   gz_topic_name: "/clock"
+#   ros_type_name: "rosgraph_msgs/msg/Clock	"
+#   gz_type_name: "gz.msgs.Clock"
+#   direction: ROS_TO_GZ

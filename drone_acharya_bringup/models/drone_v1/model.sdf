@@ -159,6 +159,7 @@
         <update_rate>1000.0</update_rate>
       </sensor>
     </link>
+    
     <joint name='imu_joint' type='revolute'>
       <child>imu_link</child>
       <parent>base_link</parent>
@@ -656,17 +657,18 @@
     <plugin
       filename="gz-sim-odometry-publisher-system"
       name="gz::sim::systems::OdometryPublisher">
-      <odom_frame>odom</odom_frame>
-      <robot_base_frame>base_link</robot_base_frame>
+      <odom_frame>drone_v1/odom</odom_frame>
+      <robot_base_frame>drone_v1/base_link</robot_base_frame>
+      <dimensions>3</dimensions>
       <!-- <robot_base_frame>drone_v1</robot_base_frame> -->
     </plugin>
-    <plugin
+    <!-- <plugin
       filename="gz-sim-odometry-publisher-system"
       name="gz::sim::systems::OdometryPublisher">
       <odom_frame>odom</odom_frame>
-      <!-- <robot_base_frame>base_link</robot_base_frame> -->
+      <robot_base_frame>base_link</robot_base_frame>
       <robot_base_frame>drone_v1</robot_base_frame>
-    </plugin>
+    </plugin> -->
 
   </model>
 </sdf>
