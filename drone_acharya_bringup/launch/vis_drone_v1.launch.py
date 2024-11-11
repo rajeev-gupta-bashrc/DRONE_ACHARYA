@@ -27,7 +27,8 @@ def generate_launch_description():
     # Gazebo
     world_file = PathJoinSubstitution([pkg_project_bringup, 'worlds', 'drone_v1_world.sdf'])
     gz_sim = ExecuteProcess(
-        cmd=['gz', 'sim', '-r', world_file],
+        cmd=['gz', 'sim', world_file],                      ## to launch in paused mode
+        # cmd=['gz', 'sim', '-r', world_file],                 ## to launch in running mode
         output='screen'
     )
     

@@ -24,9 +24,35 @@ class DronePublisher(Node):
         
         self.timer = self.create_timer(1.0, self.publish_commands)
         
+        
+        ##yaw
+        # self.command_values = {
+        #     'rotor_0_joint':  throttle+del_throttle,
+        #     'rotor_1_joint':  throttle+del_throttle,
+        #     'rotor_2_joint': -throttle,
+        #     'rotor_3_joint': -throttle
+        # }
+        
+        ##pitch
+        # self.command_values = {
+        #     'rotor_0_joint':  throttle+del_throttle,
+        #     'rotor_1_joint':  throttle,
+        #     'rotor_2_joint': -throttle-del_throttle,
+        #     'rotor_3_joint': -throttle
+        # }
+        
+        ##roll
+        # self.command_values = {
+        #     'rotor_0_joint':  throttle,
+        #     'rotor_1_joint':  throttle+del_throttle,
+        #     'rotor_2_joint': -throttle-del_throttle,
+        #     'rotor_3_joint': -throttle
+        # }
+        
+        ##thrust
         self.command_values = {
-            'rotor_0_joint':  throttle+del_throttle,
-            'rotor_1_joint':  throttle+del_throttle,
+            'rotor_0_joint':  throttle,
+            'rotor_1_joint':  throttle,
             'rotor_2_joint': -throttle,
             'rotor_3_joint': -throttle
         }

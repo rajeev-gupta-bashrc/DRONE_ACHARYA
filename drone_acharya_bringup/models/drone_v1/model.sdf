@@ -657,18 +657,10 @@
     <plugin
       filename="gz-sim-odometry-publisher-system"
       name="gz::sim::systems::OdometryPublisher">
-      <odom_frame>drone_v1/odom</odom_frame>
+      <odom_frame>odom</odom_frame>
       <robot_base_frame>drone_v1/base_link</robot_base_frame>
       <dimensions>3</dimensions>
-      <!-- <robot_base_frame>drone_v1</robot_base_frame> -->
     </plugin>
-    <!-- <plugin
-      filename="gz-sim-odometry-publisher-system"
-      name="gz::sim::systems::OdometryPublisher">
-      <odom_frame>odom</odom_frame>
-      <robot_base_frame>base_link</robot_base_frame>
-      <robot_base_frame>drone_v1</robot_base_frame>
-    </plugin> -->
 
   </model>
 </sdf>

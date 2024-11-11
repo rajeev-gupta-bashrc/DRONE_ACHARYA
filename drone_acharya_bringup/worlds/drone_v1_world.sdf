@@ -4,6 +4,7 @@
     <physics name="1ms" type="ignore">
       <max_step_size>0.001</max_step_size>
       <real_time_factor>1.0</real_time_factor>
+      <!-- <real_time_factor>0.01</real_time_factor> -->
     </physics>
 
     <plugin filename="gz-sim-physics-system"
@@ -97,8 +98,20 @@
     <include>
       <uri>model://drone_v1</uri>
       <name>drone_v1</name>
-      <pose degrees="true">0 0 0.2 0 0 0</pose>
+      <pose degrees="false">0 0 0.4 0 0 0</pose>
     </include>
+
+    <!-- <joint name="world_to_base" type="revolute">
+      <parent>world</parent>
+      <child>drone_v1::base_link</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.5</lower>
+          <upper> 1.5</upper>
+        </limit>
+      </axis>
+    </joint> -->
 
 
   </world>

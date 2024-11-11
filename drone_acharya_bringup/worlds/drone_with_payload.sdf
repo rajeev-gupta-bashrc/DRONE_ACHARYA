@@ -3,7 +3,7 @@
   <world name="map">
     <physics name="1ms" type="ignore">
       <max_step_size>0.001</max_step_size>
-      <real_time_factor>1.0</real_time_factor>
+      <real_time_factor>1</real_time_factor>
     </physics>
 
     <plugin filename="gz-sim-physics-system"
@@ -95,23 +95,37 @@
     </model>
     
     <include>
-      <uri>model://drone_v2</uri>
-      <name>drone_v2</name>
-      <pose degrees="true">0 0 1 0 0 90</pose>
+      <uri>model://drone_v1</uri>
+      <name>drone_v1</name>
+      <pose degrees="false">0 0 0.2 0 0 0</pose>
     </include>
 
-    <joint name='world_to_drone' type='revolute'>
-      <child>drone_v2</child>
-      <parent>world</parent>
+    <include>
+      <uri>model://cable</uri>
+      <name>cable</name>
+      <pose degrees="false">0 0 0.1 1.57 0 0</pose>
+      <!-- <pose degrees="false">0 0 0.1 0 0 0</pose> -->
+    </include>
+
+    <include>
+      <uri>model://cube</uri>
+      <name>payload</name>
+      <pose degrees="false">0 1.67 0.1 1.57 0 0</pose>
+      <!-- <pose degrees="false">0 0 0.1 0 0 0</pose> -->
+    </include>
+
+    <joint name="cable_payload_joint" type="revolute">
+      <parent>cable::link15</parent>
+      <child>payload::base_link</child>
       <axis>
-        <xyz>0 0 1</xyz>
+        <xyz>1 0 0</xyz>
         <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
+          <lower>-3.14/3</lower>
+          <upper>3.14/3</upper>
         </limit>
-        <!-- <dynamics>
-          <damping>0.004</damping>
-        </dynamics> -->
+        <dynamics>
+          <damping>0.00005</damping>
+        </dynamics>
       </axis>
       <physics>
         <ode>
@@ -119,6 +133,33 @@
         </ode>
       </physics>
     </joint>
+
+    <joint name="cable_drone_joint" type="revolute">
+      <parent>drone_v1::base_link</parent>
+      <child>cable::link0</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-3.14/3</lower>
+          <upper>3.14/3</upper>
+        </limit>
+        <dynamics>
+          <damping>0.00005</damping>
+        </dynamics>
+      </axis>
+      <physics>
+        <ode>
+          <implicit_spring_damper>1</implicit_spring_damper>
+        </ode>
+      </physics>
+    </joint>
+
+    <!-- <joint name="world_payload_joint" type="fixed">
+      <parent>world</parent>
+      <child>drone_v1::base_link</child>
+    </joint> -->
+
+
 
   </world>
   

@@ -46,11 +46,10 @@ if(BUILD_TESTING)
 endif()
 
 install(PROGRAMS
-  scripts/drone_teleop.py
   scripts/test_flight_command_pub.py
   scripts/flight_command_pub.py
-  scripts/mpc_controller.py
-  scripts/test.py
+  scripts/go_to_state.py
+  scripts/simple_mpc_control.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

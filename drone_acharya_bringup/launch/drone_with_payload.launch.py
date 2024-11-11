@@ -20,14 +20,15 @@ def generate_launch_description():
     pkg_project_bringup = get_package_share_directory("drone_acharya_bringup")
     pkg_ros_gz_sim = get_package_share_directory("ros_gz_sim")
 
-    sdf_file  =  os.path.join(pkg_project_bringup, 'models', 'drone_v2', 'model.sdf')
+    sdf_file  =  os.path.join(pkg_project_bringup, 'models', 'drone_v1', 'model.sdf')
     with open(sdf_file, 'r') as infp:
         robot_desc = infp.read()
         
     # Gazebo
-    world_file = PathJoinSubstitution([pkg_project_bringup, 'worlds', 'drone_v2_world.sdf'])
+    world_file = PathJoinSubstitution([pkg_project_bringup, 'worlds', 'drone_with_payload.sdf'])
     gz_sim = ExecuteProcess(
-        cmd=['gz', 'sim', '-r', world_file],
+        # cmd=['gz', 'sim', world_file],                      ## to launch in paused mode
+        cmd=['gz', 'sim', '-r', world_file],                 ## to launch in running mode
         output='screen'
     )
     
@@ -46,7 +47,7 @@ def generate_launch_description():
     rviz = Node(
         package="rviz2",
         executable="rviz2",
-        arguments=["-d", f'{Path(pkg_project_bringup) / "rviz" / "drone_v2_rviz.rviz"}'],
+        arguments=["-d", f'{Path(pkg_project_bringup) / "rviz" / "drone_v1_rviz.rviz"}'],
         condition=IfCondition(LaunchConfiguration("rviz")),
     )
     
@@ -54,7 +55,7 @@ def generate_launch_description():
         package='ros_gz_bridge',
         executable='parameter_bridge',
         parameters=[{
-            'config_file': os.path.join(pkg_project_bringup, 'config', 'ros_gz_bridge_drone_v2.yaml'),
+            'config_file': os.path.join(pkg_project_bringup, 'config', 'ros_gz_bridge_drone_v1.yaml'),
             'qos_overrides./tf_static.publisher.durability': 'transient_local',
         }],
         output='screen'
