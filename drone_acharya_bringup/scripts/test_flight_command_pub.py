@@ -79,7 +79,7 @@ class DronePublisher(Node):
     def start_odometry(self):
         self.odometry_sub = self.create_subscription(
             Odometry,
-            '/drone_v2/odometry',
+            '/iris_px4/odometry',
             self.odometry_callback,
             10)
     
@@ -102,25 +102,26 @@ class DronePublisher(Node):
         self.wx = msg.twist.twist.angular.x
         self.wy = msg.twist.twist.angular.y
         self.wz = msg.twist.twist.angular.z
+        self.get_logger().info(f'current omega z: {self.wz}')
         
-        curr_time = self.get_clock().now()
-        del_t = curr_time.seconds_nanoseconds()[0]-self.last_secs_nsecs[0] + 1e-9 * (curr_time.seconds_nanoseconds()[1]-self.last_secs_nsecs[1])
-        # print('time: ', curr_time.seconds_nanoseconds())
-        del_wz = self.wz - self.last_wz
-        try:
-            self.alpha_z = del_wz/del_t
-        except ZeroDivisionError:
-            print('Zero Division Error')
-            self.alpha_z = 0.0
-        self.last_secs_nsecs[0], self.last_secs_nsecs[1] = curr_time.seconds_nanoseconds()[0], curr_time.seconds_nanoseconds()[1]
-        self.last_wz = self.wz
-        # print('del_wz: ', del_wz, 'del_t: ', del_t, 'omega about z: ', self.wz, 'alpha_z: ', self.alpha_z)
-        if self.alpha_z!=0.0: 
-            self.queue_alpha.append(self.alpha_z)
-            self.counter+=1
-            if self.counter % self.queue_len == 0:
-                print('alpha_z: ', sum(self.queue_alpha)/self.queue_len)
-                self.counter = 0
+        # curr_time = self.get_clock().now()
+        # del_t = curr_time.seconds_nanoseconds()[0]-self.last_secs_nsecs[0] + 1e-9 * (curr_time.seconds_nanoseconds()[1]-self.last_secs_nsecs[1])
+        # # print('time: ', curr_time.seconds_nanoseconds())
+        # del_wz = self.wz - self.last_wz
+        # try:
+        #     self.alpha_z = del_wz/del_t
+        # except ZeroDivisionError:
+        #     print('Zero Division Error')
+        #     self.alpha_z = 0.0
+        # self.last_secs_nsecs[0], self.last_secs_nsecs[1] = curr_time.seconds_nanoseconds()[0], curr_time.seconds_nanoseconds()[1]
+        # self.last_wz = self.wz
+        # # print('del_wz: ', del_wz, 'del_t: ', del_t, 'omega about z: ', self.wz, 'alpha_z: ', self.alpha_z)
+        # if self.alpha_z!=0.0: 
+        #     self.queue_alpha.append(self.alpha_z)
+        #     self.counter+=1
+        #     if self.counter % self.queue_len == 0:
+        #         print('alpha_z: ', sum(self.queue_alpha)/self.queue_len)
+        #         self.counter = 0
 
     def update_rpy(self, orientation_q):
         # Convert quaternion to Euler angles
@@ -150,11 +151,12 @@ class DronePublisher(Node):
         return roll, pitch, yaw
         
     def publish_commands(self):
-        self.rotor1_pub.publish(Float64(data=self.command_values['rotor_0_joint']))
-        self.rotor2_pub.publish(Float64(data=self.command_values['rotor_1_joint']))
-        self.rotor3_pub.publish(Float64(data=self.command_values['rotor_2_joint']))
-        self.rotor4_pub.publish(Float64(data=self.command_values['rotor_3_joint']))
-        self.get_logger().info('Publishing command values: %s' % self.command_values)
+        # self.rotor1_pub.publish(Float64(data=self.command_values['rotor_0_joint']))
+        # self.rotor2_pub.publish(Float64(data=self.command_values['rotor_1_joint']))
+        # self.rotor3_pub.publish(Float64(data=self.command_values['rotor_2_joint']))
+        # self.rotor4_pub.publish(Float64(data=self.command_values['rotor_3_joint']))
+        # self.get_logger().info('Publishing command values: %s' % self.command_values)
+        return 0
 
 def main(args=None):
     parser = argparse.ArgumentParser(description='Drone Publisher Node')

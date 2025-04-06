@@ -20,28 +20,28 @@ def generate_launch_description():
     pkg_project_bringup = get_package_share_directory("drone_acharya_bringup")
     pkg_ros_gz_sim = get_package_share_directory("ros_gz_sim")
 
-    sdf_file  =  os.path.join(pkg_project_bringup, 'models', 'drone_v1', 'model.sdf')
+    sdf_file  =  os.path.join(pkg_project_bringup, 'models', 'iris_px4', 'model.sdf')
     with open(sdf_file, 'r') as infp:
         robot_desc = infp.read()
         
     # Gazebo
-    world_file = PathJoinSubstitution([pkg_project_bringup, 'worlds', 'drone_with_payload.sdf'])
+    world_file = PathJoinSubstitution([pkg_project_bringup, 'worlds', 'iris_world.sdf'])
     gz_sim = ExecuteProcess(
         # cmd=['gz', 'sim', world_file],                      ## to launch in paused mode
         cmd=['gz', 'sim', '-r', world_file],                 ## to launch in running mode
         output='screen'
     )
     
-    # robot_state_publisher = Node(
-    #     package='robot_state_publisher',
-    #     executable='robot_state_publisher',
-    #     name='robot_state_publisher',
-    #     output='both',
-    #     parameters=[
-    #         {'use_sim_time': True},
-    #         {'robot_description': robot_desc},
-    #     ]
-    # )
+    robot_state_publisher = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        name='robot_state_publisher',
+        output='both',
+        parameters=[
+            {'use_sim_time': True},
+            {'robot_description': robot_desc},
+        ]
+    )
 
     # RViz
     rviz = Node(
@@ -55,7 +55,7 @@ def generate_launch_description():
         package='ros_gz_bridge',
         executable='parameter_bridge',
         parameters=[{
-            'config_file': os.path.join(pkg_project_bringup, 'config', 'ros_gz_bridge_drone_v1.yaml'),
+            'config_file': os.path.join(pkg_project_bringup, 'config', 'ros_gz_bridge_iris_px4.yaml'),
             'qos_overrides./tf_static.publisher.durability': 'transient_local',
         }],
         output='screen'
@@ -75,7 +75,7 @@ def generate_launch_description():
                 "rviz", default_value="true", description="Open RViz."
             ),
             gz_sim,
-            # robot_state_publisher,   
+            robot_state_publisher,   
             ros2_gz_bridge,
             bridge,
             # rviz,

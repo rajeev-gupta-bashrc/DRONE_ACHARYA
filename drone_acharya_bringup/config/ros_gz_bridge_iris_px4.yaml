@@ -1,0 +1,15 @@
+- ros_topic_name: "/iris_px4/command/motor_speed"
+  gz_topic_name:  "/iris_px4/command/motor_speed"
+  ros_type_name: "actuator_msgs/msg/Actuators"
+  gz_type_name: "gz.msgs.Actuators"
+  direction: ROS_TO_GZ
+
+- ros_topic_name: "/iris_px4/joint_states"
+  gz_topic_name: "/world/map/model/iris_px4/joint_state"
+  ros_type_name: "sensor_msgs/msg/JointState"
+  gz_type_name: "gz.msgs.Model"
+
+- ros_topic_name: "/iris_px4/odometry"
+  gz_topic_name: "/model/iris_px4/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"	
+  gz_type_name: "gz.msgs.Odometry"

@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import warnings
 
 def read_data_file(filename):
     # Lists to store each component
@@ -32,9 +31,9 @@ def read_data_file(filename):
 def plot_data(data):
     time = np.arange(len(data[0]))  # Create time array based on data length
     
-    # Position plots over time
-    plt.figure(1, figsize=(10, 6))
-    plt.title('Position Data vs Time')
+    # Position plots
+    plt.figure(1)
+    plt.title('Position Data')
     plt.plot(time, data[0], label='X')
     plt.plot(time, data[1], label='Y')
     plt.plot(time, data[2], label='Z')
@@ -44,8 +43,8 @@ def plot_data(data):
     plt.grid(True)
     
     # Orientation plots
-    plt.figure(2, figsize=(10, 6))
-    plt.title('Orientation Data vs Time')
+    plt.figure(2)
+    plt.title('Orientation Data')
     plt.plot(time, data[3], label='Roll')
     plt.plot(time, data[4], label='Pitch')
     plt.plot(time, data[5], label='Yaw')
@@ -55,8 +54,8 @@ def plot_data(data):
     plt.grid(True)
     
     # Thrust plots
-    plt.figure(3, figsize=(10, 6))
-    plt.title('Motor Thrust Data vs Time')
+    plt.figure(3)
+    plt.title('Motor Thrust Data')
     plt.plot(time, data[6], label='Motor 1')
     plt.plot(time, data[7], label='Motor 2')
     plt.plot(time, data[8], label='Motor 3')
@@ -66,43 +65,14 @@ def plot_data(data):
     plt.legend()
     plt.grid(True)
     
-    # 2D Trajectory plots
-    fig = plt.figure(4, figsize=(15, 5))
-    
-    # XY plot
-    plt.subplot(131)
-    plt.plot(data[0], data[1], 'b-', label='XY Trajectory')
-    plt.plot(data[0][0], data[1][0], 'go', label='Start')
-    plt.plot(data[0][-1], data[1][-1], 'ro', label='End')
-    plt.xlabel('X Position')
-    plt.ylabel('Y Position')
-    plt.title('XY Trajectory')
-    plt.grid(True)
-    plt.legend()
-    
-    # XZ plot
-    plt.subplot(132)
-    plt.plot(data[0], data[2], 'b-', label='XZ Trajectory')
-    plt.plot(data[0][0], data[2][0], 'go', label='Start')
-    plt.plot(data[0][-1], data[2][-1], 'ro', label='End')
-    plt.xlabel('X Position')
-    plt.ylabel('Z Position')
-    plt.title('XZ Trajectory')
-    plt.grid(True)
-    plt.legend()
-    
-    # YZ plot
-    plt.subplot(133)
-    plt.plot(data[1], data[2], 'b-', label='YZ Trajectory')
-    plt.plot(data[1][0], data[2][0], 'go', label='Start')
-    plt.plot(data[1][-1], data[2][-1], 'ro', label='End')
-    plt.xlabel('Y Position')
-    plt.ylabel('Z Position')
-    plt.title('YZ Trajectory')
-    plt.grid(True)
-    plt.legend()
-    
-    plt.tight_layout()
+    # 3D Position Plot
+    fig = plt.figure(4)
+    ax = fig.add_subplot(111, projection='3d')
+    ax.plot(data[0], data[1], data[2])
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Z')
+    ax.set_title('3D Position Trajectory')
     
     # Show all plots
     plt.show()

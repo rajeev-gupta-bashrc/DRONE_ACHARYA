@@ -96,19 +96,43 @@
     </model>
     
     <include>
-      <uri>model://drone_v1</uri>
-      <name>drone_v1</name>
+      <uri>model://iris_px4</uri>
+      <name>iris_px4</name>
       <pose degrees="false">0 0 0.4 0 0 0</pose>
     </include>
 
+
+
+<!-- //////////////////////////////////////////////////////////////////////// -->
+<!-- Unsupported joint -->
+<!-- //////////////////////////////////////////////////////////////////////// -->
+    <!-- <joint name="world_to_base" type="continuous">
+      <parent>world</parent>
+      <child>iris_px4::base_link</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <dynamics>
+          <friction>0</friction>
+          <damping>0</damping>
+        </dynamics>
+        <limit>
+          <effort>0</effort>
+          <velocity>0</velocity>
+        </limit>
+      </axis>
+    </joint> -->
+<!-- //////////////////////////////////////////////////////////////////////// -->
+
+
+
     <joint name="world_to_base" type="revolute">
       <parent>world</parent>
-      <child>drone_v1::base_link</child>
+      <child>iris_px4::base_link</child>
       <axis>
         <xyz>0 0 1</xyz>
         <limit>
-          <lower>-1e16</lower>
-          <upper> 1e16</upper>
+          <lower>-1e100</lower>
+          <upper> 1e100</upper>
         </limit>
         <dynamics>
           <spring_reference>0</spring_reference>
@@ -120,7 +144,7 @@
 
 
     <!-- <joint name="iris_world_joint" type="prismatic">
-      <child>drone_v1::base_link</child>
+      <child>iris::base_link</child>
       <parent>world</parent>
       <axis>
         <xyz>0 0 1</xyz>
